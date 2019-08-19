@@ -222,6 +222,7 @@ resource "aws_instance" "ec2WorkshopWebApp" {
   }
 }
 
+/*
 resource "aws_instance" "ec2WorkshopWebApp2" {
     //aws AMI selection -- Amazon Linux 2
   ami           = "ami-0602ae7e6b9191aea"
@@ -238,7 +239,7 @@ resource "aws_instance" "ec2WorkshopWebApp2" {
     Name = "ec2WorkshopWebApp2"
   }
 }
-
+*/
 
 // create DB Subnet Group -- Subnet1+Subnet2
 resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
@@ -272,9 +273,12 @@ resource "aws_db_instance" "rdsWorkshop" {
 output "ip" {
   value = "${aws_instance.ec2WorkshopWebApp.public_ip}"
 }
+
+/*
 output "ip2" {
   value = "${aws_instance.ec2WorkshopWebApp2.public_ip}"
 }
+*/
 
 /*
 output "ipDB"{
@@ -285,10 +289,11 @@ output "ipDB"{
 output "dns"{
   value = "${aws_instance.ec2WorkshopWebApp.public_dns}"
 }
+/*
 output "dns2"{
   value = "${aws_instance.ec2WorkshopWebApp2.public_dns}"
 }
-
+*/
 output "userData"{
     value = "${var.userdataEC2}"
 }
