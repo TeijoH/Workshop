@@ -1,7 +1,7 @@
 //create AWS provider 
 provider "aws" {
     //aws profile defined in aws cli
-  profile    = "amplifyAdmin-1"
+    // profile    = "amplifyAdmin-1"
 
     //aws region selection
   region     = "ap-southeast-1"

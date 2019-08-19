@@ -7,7 +7,7 @@ phases:
     commands:
       - "cd /usr/bin"
       - "curl -O https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip"
-      - "unzip terraform_0.12.6_linux_amd64.zip -d /home/ec2-user/bin"
+      - "unzip terraform_0.12.6_linux_amd64.zip"
 
   build:
     commands:
