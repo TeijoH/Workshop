@@ -1,4 +1,4 @@
-//create AWS provider
+//create AWS provider 
 provider "aws" {
     //aws profile defined in aws cli
   profile    = "amplifyAdmin-1"
@@ -6,6 +6,17 @@ provider "aws" {
     //aws region selection
   region     = "ap-southeast-1"
 }
+
+//create s3 tfstate location c69e07c0a10b3258e9672807b54231639b5b1b04
+terraform {
+  backend "s3"{
+    bucket         = "terraform-bucket-alevz"
+    region         = "ap-southeast-1"
+    key            = "terraform-state/terraform.tfstate"
+    dynamodb_table = "terraform_state_lock"
+  }
+}
+
 
 //create VPC 
 resource "aws_vpc" "workshopvpc" {
@@ -132,6 +143,16 @@ resource "aws_security_group" "secGroupWorkshopMYSQL" {
     security_groups = ["${aws_security_group.secGroupWorkshopWebSSH.id}"]
   }
 
+  ingress {
+    # TLS (change to whatever ports you need)
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    # Please restrict your ingress to only necessary IPs and ports.
+    # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port       = 0
     to_port         = 0
@@ -201,6 +222,24 @@ resource "aws_instance" "ec2WorkshopWebApp" {
   }
 }
 
+resource "aws_instance" "ec2WorkshopWebApp2" {
+    //aws AMI selection -- Amazon Linux 2
+  ami           = "ami-0602ae7e6b9191aea"
+
+    //aws EC2 instance type, t2.micro for free tier
+  instance_type                 = "t2.micro"
+  key_name                      = "testkeypair"
+  subnet_id                     = "${aws_subnet.workshopPublicSubnet.id}"
+  vpc_security_group_ids        = ["${aws_security_group.secGroupWorkshopWebSSH.id}"]
+  //user_data_base64            = "${base64encode(var.userdataEC2)}"
+  user_data                     = "${var.userdataEC2}"
+  iam_instance_profile          =  "${aws_iam_instance_profile.instanceProfileWorkshop.name}"
+  tags = {
+    Name = "ec2WorkshopWebApp2"
+  }
+}
+
+
 // create DB Subnet Group -- Subnet1+Subnet2
 resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
   name       = "dbsubnetgroupworkshop"
@@ -211,6 +250,7 @@ resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
   }
 }
 
+/*
 resource "aws_db_instance" "rdsWorkshop" {
   allocated_storage         = 20
   storage_type              = "gp2"
@@ -227,17 +267,26 @@ resource "aws_db_instance" "rdsWorkshop" {
   skip_final_snapshot = true
   publicly_accessible = true
 }
+*/
 
 output "ip" {
   value = "${aws_instance.ec2WorkshopWebApp.public_ip}"
 }
+output "ip2" {
+  value = "${aws_instance.ec2WorkshopWebApp2.public_ip}"
+}
 
+/*
 output "ipDB"{
     value = "${aws_db_instance.rdsWorkshop.address}"
 }
+*/
 
 output "dns"{
   value = "${aws_instance.ec2WorkshopWebApp.public_dns}"
+}
+output "dns2"{
+  value = "${aws_instance.ec2WorkshopWebApp2.public_dns}"
 }
 
 output "userData"{
