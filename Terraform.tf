@@ -1,13 +1,13 @@
 //create AWS provider 
 provider "aws" {
     //aws profile defined in aws cli
-    // profile    = "amplifyAdmin-1"
+  profile    = "amplifyAdmin-1"
 
     //aws region selection
   region     = "ap-southeast-1"
 }
 
-//create s3 tfstate location c69e07c0a10b3258e9672807b54231639b5b1b04
+//create s3 tfstate location 
 terraform {
   backend "s3"{
     bucket         = "terraform-bucket-alevz"
@@ -222,7 +222,7 @@ resource "aws_instance" "ec2WorkshopWebApp" {
   }
 }
 
-/*
+
 resource "aws_instance" "ec2WorkshopWebApp2" {
     //aws AMI selection -- Amazon Linux 2
   ami           = "ami-0602ae7e6b9191aea"
@@ -239,7 +239,7 @@ resource "aws_instance" "ec2WorkshopWebApp2" {
     Name = "ec2WorkshopWebApp2"
   }
 }
-*/
+
 
 // create DB Subnet Group -- Subnet1+Subnet2
 resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
@@ -251,7 +251,7 @@ resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
   }
 }
 
-/*
+
 resource "aws_db_instance" "rdsWorkshop" {
   allocated_storage         = 20
   storage_type              = "gp2"
@@ -268,32 +268,28 @@ resource "aws_db_instance" "rdsWorkshop" {
   skip_final_snapshot = true
   publicly_accessible = true
 }
-*/
+
 
 output "ip" {
   value = "${aws_instance.ec2WorkshopWebApp.public_ip}"
 }
 
-/*
 output "ip2" {
   value = "${aws_instance.ec2WorkshopWebApp2.public_ip}"
 }
-*/
 
-/*
 output "ipDB"{
     value = "${aws_db_instance.rdsWorkshop.address}"
 }
-*/
 
 output "dns"{
   value = "${aws_instance.ec2WorkshopWebApp.public_dns}"
 }
-/*
+
 output "dns2"{
   value = "${aws_instance.ec2WorkshopWebApp2.public_dns}"
 }
-*/
+
 output "userData"{
     value = "${var.userdataEC2}"
 }
