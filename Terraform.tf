@@ -252,23 +252,43 @@ resource "aws_db_subnet_group" "dbSubnetGroupWorkshop" {
 }
 
 
-resource "aws_db_instance" "rdsWorkshop" {
-  allocated_storage         = 20
-  storage_type              = "gp2"
-  engine                    = "mysql"
-  engine_version            = "5.7"
-  instance_class            = "db.t2.micro"
-  name                      = "rdsWorkshop"
-  username                  = "alevz"
-  password                  = "Passw0rdDB"
-  vpc_security_group_ids    = ["${aws_security_group.secGroupWorkshopMYSQL.id}"]
-  db_subnet_group_name      = "${aws_db_subnet_group.dbSubnetGroupWorkshop.tags.Name}"
-  parameter_group_name      = "default.mysql5.7"
-  //snapshot_identifier = "some-snap"
-  skip_final_snapshot = true
-  publicly_accessible = true
-}
+# resource "aws_db_instance" "rdsWorkshop" {
+#   allocated_storage         = 20
+#   storage_type              = "gp2"
+#   engine                    = "mysql"
+#   engine_version            = "5.7"
+#   instance_class            = "db.t2.micro"
+#   name                      = "rdsWorkshop"
+#   username                  = "alevz"
+#   password                  = "Passw0rdDB"
+#   vpc_security_group_ids    = ["${aws_security_group.secGroupWorkshopMYSQL.id}"]
+#   db_subnet_group_name      = "${aws_db_subnet_group.dbSubnetGroupWorkshop.tags.Name}"
+#   parameter_group_name      = "default.mysql5.7"
+#   backup_retention_period   = 1
+#   //snapshot_identifier = "some-snap"
+#   skip_final_snapshot = true
+#   publicly_accessible = true
+#   multi_az            = true
+# }
 
+# resource "aws_db_instance" "rdsWorkshopReplica" {
+#   allocated_storage         = 20
+#   storage_type              = "gp2"
+#   engine                    = "mysql"
+#   engine_version            = "5.7"
+#   instance_class            = "db.t2.micro"
+#   name                      = "rdsWorkshopReplica"
+#   username                  = "alevz"
+#   password                  = "Passw0rdDB"
+#   vpc_security_group_ids    = ["${aws_security_group.secGroupWorkshopMYSQL.id}"]
+#   db_subnet_group_name      = "${aws_db_subnet_group.dbSubnetGroupWorkshop.tags.Name}"
+#   parameter_group_name      = "default.mysql5.7"
+#   //snapshot_identifier = "some-snap"
+#   skip_final_snapshot = true
+#   publicly_accessible = true
+#   #multi_az            = true
+#   replicate_source_db       = "${aws_db_instance.rdsWorkshop.id}"
+# }
 
 output "ip" {
   value = "${aws_instance.ec2WorkshopWebApp.public_ip}"
@@ -278,9 +298,13 @@ output "ip2" {
   value = "${aws_instance.ec2WorkshopWebApp2.public_ip}"
 }
 
-output "ipDB"{
-    value = "${aws_db_instance.rdsWorkshop.address}"
-}
+# output "ipDB"{
+#     value = "${aws_db_instance.rdsWorkshop.address}"
+# }
+
+# output "ipDBReplica"{
+#     value = "${aws_db_instance.rdsWorkshopReplica.address}"
+# }
 
 output "dns"{
   value = "${aws_instance.ec2WorkshopWebApp.public_dns}"
