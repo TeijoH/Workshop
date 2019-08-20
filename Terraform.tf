@@ -55,7 +55,7 @@ resource "aws_subnet" "workshopPublicSubnet2" {
   map_public_ip_on_launch = "true"
   availability_zone = "ap-southeast-1b"
   tags = {
-    Name = "workshopPublicSubnet"
+    Name = "workshopPublicSubnet2"
   }
 }
 
@@ -76,6 +76,11 @@ resource "aws_route_table" "routeTableWorkshop" {
 //create association RouteTable to Subnet
 resource "aws_route_table_association" "aRouteTableSubnet" {
   subnet_id      = "${aws_subnet.workshopPublicSubnet.id}"
+  route_table_id = "${aws_route_table.routeTableWorkshop.id}"
+}
+
+resource "aws_route_table_association" "aRouteTableSubnet2" {
+  subnet_id      = "${aws_subnet.workshopPublicSubnet2.id}"
   route_table_id = "${aws_route_table.routeTableWorkshop.id}"
 }
 
