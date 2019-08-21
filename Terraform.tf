@@ -319,6 +319,6 @@ output "dns2"{
   value = "${aws_instance.ec2WorkshopWebApp2.public_dns}"
 }
 
-output "userData"{
-    value = "${var.userdataEC2}"
-}
+# output "userData"{
+#     value = "${var.userdataEC2}"
+# }
