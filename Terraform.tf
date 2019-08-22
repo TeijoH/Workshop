@@ -7,7 +7,7 @@ provider "aws" {
   region     = "ap-southeast-1"
 }
 
-//create s3 tfstate location 
+//create s3 tfstate location cl
 terraform {
   backend "s3"{
     bucket         = "terraform-bucket-alevz"
@@ -218,22 +218,22 @@ resource "aws_instance" "ec2WorkshopWebApp" {
 }
 
 
-# resource "aws_instance" "ec2WorkshopWebApp2" {
-#     //aws AMI selection -- Amazon Linux 2
-#   ami           = "ami-0602ae7e6b9191aea"
+resource "aws_instance" "ec2WorkshopWebApp2" {
+    //aws AMI selection -- Amazon Linux 2
+  ami           = "ami-0602ae7e6b9191aea"
 
-#     //aws EC2 instance type, t2.micro for free tier
-#   instance_type                 = "t2.micro"
-#   key_name                      = "testkeypair"
-#   subnet_id                     = "${aws_subnet.workshopPublicSubnet.id}"
-#   vpc_security_group_ids        = ["${aws_security_group.secGroupWorkshopWebSSH.id}"]
-#   //user_data_base64            = "${base64encode(var.userdataEC2)}"
-#   user_data                     = "${var.userdataEC2}"
-#   iam_instance_profile          =  "${aws_iam_instance_profile.instanceProfileWorkshop.name}"
-#   tags = {
-#     Name = "ec2WorkshopWebApp2"
-#   }
-# }
+    //aws EC2 instance type, t2.micro for free tier
+  instance_type                 = "t2.micro"
+  key_name                      = "testkeypair"
+  subnet_id                     = "${aws_subnet.workshopPublicSubnet.id}"
+  vpc_security_group_ids        = ["${aws_security_group.secGroupWorkshopWebSSH.id}"]
+  //user_data_base64            = "${base64encode(var.userdataEC2)}"
+  user_data                     = "${var.userdataEC2}"
+  iam_instance_profile          =  "${aws_iam_instance_profile.instanceProfileWorkshop.name}"
+  tags = {
+    Name = "ec2WorkshopWebApp2"
+  }
+}
 
 
 // create DB Subnet Group -- Subnet1+Subnet2
