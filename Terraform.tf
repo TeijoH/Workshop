@@ -7,7 +7,7 @@ provider "aws" {
 
 //create s3 tfstate location cl
 terraform {
-  required_version > "0.12"
+  required_version = "> 0.12"
   backend "s3" {
     bucket = "mystatebucket"
     key    = "myterraformapps/dev/terraform.tfstate"
