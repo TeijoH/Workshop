@@ -14,7 +14,7 @@ phases:
       - cd "$CODEBUILD_SRC_DIR"
       - terraform init
       - terraform validate
-#      - terraform plan
+      - terraform plan
 #      - terraform apply -auto-approve
 
   post_build:
