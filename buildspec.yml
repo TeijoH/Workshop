@@ -6,8 +6,8 @@ phases:
       python: 3.7
     commands:
       - "cd /usr/bin"
-      - "curl -O https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip"
-      - "unzip terraform_0.12.6_linux_amd64.zip"
+      - "curl -O https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip"
+      - "unzip terraform_0.12.26_linux_amd64.zip"
 
   build:
     commands:
