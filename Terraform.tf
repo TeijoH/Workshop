@@ -1,22 +1,17 @@
 //create AWS provider 
 provider "aws" {
-    //aws profile defined in aws cli
-  profile    = "amplifyAdmin-1"
-
-    //aws region selection
-  region     = "ap-southeast-1"
+  region     = "eu-west-1"
 }
 
 //create s3 tfstate location cl
 terraform {
-  backend "s3"{
-    bucket         = "terraform-bucket-alevz"
-    region         = "ap-southeast-1"
-    key            = "terraform-state/terraform.tfstate"
-    dynamodb_table = "terraform_state_lock"
+  backend "s3" {
+    bucket = "mystatebucket"
+    key    = "myterraformapps/dev/terraform.tfstate"
+    region = "eu-west-1"
+    dynamodb_table = "terraformstate"
   }
 }
-
 
 //create VPC 
 resource "aws_vpc" "workshopvpc" {
@@ -42,7 +37,7 @@ resource "aws_subnet" "workshopPublicSubnet" {
   vpc_id     = "${aws_vpc.workshopvpc.id}"
   cidr_block = "20.0.1.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone = "ap-southeast-1a"
+  availability_zone = "eu-west-1a"
   tags = {
     Name = "workshopPublicSubnet"
   }
@@ -53,7 +48,7 @@ resource "aws_subnet" "workshopPublicSubnet2" {
   vpc_id     = "${aws_vpc.workshopvpc.id}"
   cidr_block = "20.0.2.0/24"
   map_public_ip_on_launch = "true"
-  availability_zone = "ap-southeast-1b"
+  availability_zone = "eu-west-1b"
   tags = {
     Name = "workshopPublicSubnet2"
   }
@@ -202,11 +197,11 @@ variable "userdataEC2" {
 //create EC2 Apps
 resource "aws_instance" "ec2WorkshopWebApp" {
     //aws AMI selection -- Amazon Linux 2
-  ami           = "ami-0602ae7e6b9191aea"
+  ami           = "ami-0ea3405d2d2522162"
 
     //aws EC2 instance type, t2.micro for free tier
   instance_type                 = "t2.micro"
-  key_name                      = "testkeypair"
+  key_name                      = "IrelandKeyPair"
   subnet_id                     = "${aws_subnet.workshopPublicSubnet.id}"
   vpc_security_group_ids        = ["${aws_security_group.secGroupWorkshopWebSSH.id}"]
   //user_data_base64            = "${base64encode(var.userdataEC2)}"
@@ -220,7 +215,7 @@ resource "aws_instance" "ec2WorkshopWebApp" {
 
 resource "aws_instance" "ec2WorkshopWebApp2" {
     //aws AMI selection -- Amazon Linux 2
-  ami           = "ami-0602ae7e6b9191aea"
+  ami           = "ami-0ea3405d2d2522162"
 
     //aws EC2 instance type, t2.micro for free tier
   instance_type                 = "t2.micro"
@@ -254,8 +249,8 @@ resource "aws_db_instance" "rdsWorkshop" {
   engine_version            = "5.7"
   instance_class            = "db.t2.micro"
   name                      = "rdsWorkshop"
-  username                  = "alevz"
-  password                  = "Passw0rdDB"
+  username                  = "teijo"
+  password                  = "teijo"
   vpc_security_group_ids    = ["${aws_security_group.secGroupWorkshopMYSQL.id}"]
   db_subnet_group_name      = "${aws_db_subnet_group.dbSubnetGroupWorkshop.tags.Name}"
   parameter_group_name      = "default.mysql5.7"
@@ -265,25 +260,6 @@ resource "aws_db_instance" "rdsWorkshop" {
   publicly_accessible = true
   multi_az            = true
 }
-
-# resource "aws_db_instance" "rdsWorkshopReplica" {
-#   allocated_storage         = 20
-#   storage_type              = "gp2"
-#   engine                    = "mysql"
-#   engine_version            = "5.7"
-#   instance_class            = "db.t2.micro"
-#   name                      = "rdsWorkshopReplica"
-#   username                  = "alevz"
-#   password                  = "Passw0rdDB"
-#   vpc_security_group_ids    = ["${aws_security_group.secGroupWorkshopMYSQL.id}"]
-#   db_subnet_group_name      = "${aws_db_subnet_group.dbSubnetGroupWorkshop.tags.Name}"
-#   parameter_group_name      = "default.mysql5.7"
-#   //snapshot_identifier = "some-snap"
-#   skip_final_snapshot = true
-#   publicly_accessible = true
-#   #multi_az            = true
-#   replicate_source_db       = "${aws_db_instance.rdsWorkshop.id}"
-# }
 
 output "ip" {
   value = "${aws_instance.ec2WorkshopWebApp.public_ip}"
