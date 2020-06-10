@@ -1,6 +1,6 @@
 //create AWS provider 
 provider "aws" {
-  profile = "teijo"
+#  profile = "teijo"
   region     = "eu-west-1"
 }
 
