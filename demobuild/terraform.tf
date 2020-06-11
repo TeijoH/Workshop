@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "mystatebucket"
-    key            = "myterraformapps/dev/terraform.tfstate"
-    region         = "eu-west-1"
-    dynamodb_table = "terraformstate"
+    bucket         = "${var.statebucket}"
+    key            = "${var.statekey}"
+    region         = "${var.aws_region}"
+    dynamodb_table = "${var.dynamostatetable}"
   }
 }

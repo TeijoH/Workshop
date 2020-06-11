@@ -3,6 +3,21 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
+variable "statebucket" {
+  description = "S3 state bucket"
+  default     = "mystatebucket"
+}
+
+variable "statekey" {
+  description = "S3 state object key"
+  default     = "myterraformapps/dev/terraform.tfstate"
+}
+
+variable "dynamostatetable" {
+  description = "DynamoDB state table"
+  default     = "terraformstate"
+}
+
 variable "keypair" {
   description = "Keypair for instances"
   default     = "IrelandKeyPair"
