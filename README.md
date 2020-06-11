@@ -1,2 +1,2 @@
 # Workshop
- Workshop to build infra via terraform and cicd pipeline
+ Workshop to build infra via terraform and cicd pipeline.
