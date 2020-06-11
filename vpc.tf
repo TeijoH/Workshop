@@ -4,7 +4,7 @@ resource "aws_vpc" "default" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "CICD Test VPC"
+    Name = "CICD-Test-VPC"
   }
 }
 
@@ -15,7 +15,7 @@ resource "aws_subnet" "public-subnet" {
   availability_zone = "eu-west-1a"
 
   tags = {
-    Name = "CICD Public Subnet"
+    Name = "CICD-Public-Subnet"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_subnet" "private-subnet" {
   availability_zone = "eu-west-1b"
 
   tags = {
-    Name = "CICD Database Private Subnet"
+    Name = "CICD-Database-Private-Subnet"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = "${aws_vpc.default.id}"
 
   tags = {
-    Name = "CICD VPC IGW"
+    Name = "CICD-VPC-IGW"
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_route_table" "web-public-rt" {
   }
 
   tags = {
-    Name = "CICD Public Subnet RT"
+    Name = "CICD-Public-Subnet-RT"
   }
 }
 
@@ -95,7 +95,7 @@ resource "aws_security_group" "sgweb" {
   vpc_id = "${aws_vpc.default.id}"
 
   tags = {
-    Name = "CICD Web Server SG"
+    Name = "CICD-Web-Server-SG"
   }
 }
 
@@ -128,6 +128,6 @@ resource "aws_security_group" "sgdb" {
   vpc_id = "${aws_vpc.default.id}"
 
   tags = {
-    Name = "CICD DB SG"
+    Name = "CICD-DB-SG"
   }
 }
