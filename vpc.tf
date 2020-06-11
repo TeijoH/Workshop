@@ -95,7 +95,7 @@ resource "aws_security_group" "sgweb" {
   vpc_id = "${aws_vpc.default.id}"
 
   tags = {
-    Name = "CICD-Web-Server-SG"
+    Name = "CICD-WebServer-SG"
   }
 }
 
