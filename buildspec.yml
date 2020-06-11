@@ -15,7 +15,7 @@ phases:
       - echo "Running init on `date`" 
       - terraform init
       - terraform validate
-#      - terraform plan
+      - terraform plan
 #      - terraform apply -auto-approve
 
   post_build:
