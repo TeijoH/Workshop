@@ -1,5 +1,5 @@
 # Define VPC
-resource "aws_vpc" "default" {
+resource "aws_vpc" "network" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
 
@@ -10,7 +10,7 @@ resource "aws_vpc" "default" {
 
 # Define the public subnet
 resource "aws_subnet" "public-subnet" {
-  vpc_id            = aws_vpc.default.id
+  vpc_id            = aws_vpc.network.id
   cidr_block        = var.public_subnet_cidr
   availability_zone = "eu-west-1a"
 
@@ -21,7 +21,7 @@ resource "aws_subnet" "public-subnet" {
 
 # Define the private subnet
 resource "aws_subnet" "private-subnet" {
-  vpc_id            = aws_vpc.default.id
+  vpc_id            = aws_vpc.network.id
   cidr_block        = var.private_subnet_cidr
   availability_zone = "eu-west-1b"
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "private-subnet" {
 
 # Define the internet gateway
 resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.default.id
+  vpc_id = aws_vpc.network.id
 
   tags = {
     Name = "CICD-VPC-IGW"
@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "gw" {
 
 # Define the route table
 resource "aws_route_table" "web-public-rt" {
-  vpc_id = aws_vpc.default.id
+  vpc_id = aws_vpc.network.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -92,7 +92,7 @@ resource "aws_security_group" "sgweb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = aws_vpc.default.id
+  vpc_id = aws_vpc.network.id
 
   tags = {
     Name = "CICD-WebServer-SG"
@@ -125,7 +125,7 @@ resource "aws_security_group" "sgdb" {
     cidr_blocks = ["${var.public_subnet_cidr}"]
   }
 
-  vpc_id = aws_vpc.default.id
+  vpc_id = aws_vpc.network.id
 
   tags = {
     Name = "CICD-DB-SG"

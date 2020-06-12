@@ -1,0 +1,5 @@
+aws_region = "eu-west-1"
+statebucket = "mystatebucket"
+statekey = "myterraformapps/dev/terraform.tfstate"
+dynamostatetable = "terraformstate"
+keypair = "IrelandKeyPair"
