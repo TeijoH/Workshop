@@ -14,7 +14,7 @@ resource "aws_instance" "wb" {
   }
 }
 
-# Define database inside the private subnet
+# Define database inside the private subnet (not done....)
 resource "aws_instance" "db" {
   ami                    = var.ami
   instance_type          = "t1.micro"
